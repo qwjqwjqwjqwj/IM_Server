@@ -33,3 +33,17 @@ conn.Read(b)	    客户端 → 服务器	  把对方发来的读进 b
 客户端调用conn.Close()	                 ✅ 会
 客户端进程正常退出	                      ✅ 会（OS 关闭 socket）
 客户端调用 CloseWrite()（半关闭）	        ✅ 会
+
+new
+second - function2
+
+git status            判断在哪个分支On branch main
+
+git branch function1  创建function1分支
+git switch function1  切换到function1分支
+
+在main分支下git merge function1       把function1分支并入main分支
+git branch -d function1               删除function1分支
+git branch function2 97fd86bd58364377763ab8b7888f70574cd4792c     //在这个分支（用哈希值）上开发
+git log --oneline                     提交记录
+git remote -v                         检查绑定的github仓库
