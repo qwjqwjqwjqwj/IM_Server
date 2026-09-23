@@ -33,7 +33,3 @@ conn.Read(b)	    客户端 → 服务器	  把对方发来的读进 b
 客户端调用conn.Close()	                 ✅ 会
 客户端进程正常退出	                      ✅ 会（OS 关闭 socket）
 客户端调用 CloseWrite()（半关闭）	        ✅ 会
-
-new
-git function1 branch
-function second 2
