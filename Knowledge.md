@@ -36,3 +36,4 @@ conn.Read(b)	    客户端 → 服务器	  把对方发来的读进 b
 
 new
 git function1 branch
+function second 2
