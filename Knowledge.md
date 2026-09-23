@@ -47,3 +47,7 @@ git branch -d function1               删除function1分支
 git branch function2 97fd86bd58364377763ab8b7888f70574cd4792c     //在这个分支（用哈希值）上开发
 git log --oneline                     提交记录
 git remote -v                         检查绑定的github仓库
+git push -u origin main               把你的本地 main 分支推送到远程仓库，并建立关联
+
+git push                              推送到 GitHub
+git pull                              从 GitHub 拉取	
