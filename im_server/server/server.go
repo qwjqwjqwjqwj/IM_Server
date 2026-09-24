@@ -62,7 +62,7 @@ func (this *Server) Handler(conn net.Conn) {
 	this.mapLock.Lock()
 	this.OnlineMap[user.Name] = user
 	this.mapLock.Unlock()
-	timer := time.NewTimer(10 * time.Second) //用户活跃
+	timer := time.NewTimer(300 * time.Second) //用户活跃
 	isLive := make(chan bool)
 
 	//广播上线消息
@@ -81,22 +81,14 @@ func (this *Server) Handler(conn net.Conn) {
 					fmt.Println("ERROR:", err)
 				}
 				fmt.Println("Exxxxxxxxxxxxxxxxxxxxxxxxxxit")
-
-				// //去表
-				// this.mapLock.Lock()
-				// delete(this.OnlineMap, user.Name)
-				// this.mapLock.Unlock()
-				// //关闭channel
-				// close(user.Ch_user)
-				// //关闭连接
-				// conn.Close()
 				return
 
 			}
 			//提取用户消息
-			timer.Reset(10 * time.Second)
-			msg := strings.TrimRight(string(buf[:n]), "\r\n")
-			isLive <- true //用户是活跃的
+			timer.Reset(300 * time.Second)
+			msg := strings.TrimRight(string(buf[:n]), "\r\n") //转换为字符串 并去掉末尾的\r\n
+			isLive <- true                                    //用户是活跃的
+			//查看在线用户
 			if msg == "who" {
 				user.GetInformainton("")
 				this.mapLock.Lock()
@@ -104,6 +96,11 @@ func (this *Server) Handler(conn net.Conn) {
 					user.GetInformainton(name + " is online")
 				}
 				this.mapLock.Unlock()
+			} else if msg[0:3] == "To|" { //私聊
+				toStringInformation := strings.Split(msg, "|")
+				toMessageName := toStringInformation[1]
+				this.OnlineMap[toMessageName].GetInformainton(user.Name + ":" + toStringInformation[2])
+
 			} else {
 				this.Boardcast(user, msg)
 			}

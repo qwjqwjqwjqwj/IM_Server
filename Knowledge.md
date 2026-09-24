@@ -34,8 +34,11 @@ conn.Read(b)	    客户端 → 服务器	  把对方发来的读进 b
 客户端进程正常退出	                      ✅ 会（OS 关闭 socket）
 客户端调用 CloseWrite()（半关闭）	        ✅ 会
 
-new
-second - function2
+
+
+
+
+Git用法
 
 git status            判断在哪个分支On branch main
 
@@ -51,3 +54,6 @@ git push -u origin main               把你的本地 main 分支推送到远程
 
 git push                              推送到 GitHub
 git pull                              从 GitHub 拉取	
+
+git commit                            把改动记录到本地仓库
+git push                              把本地提交上传到 GitHub
