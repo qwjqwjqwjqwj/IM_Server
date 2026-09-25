@@ -68,7 +68,7 @@ func (this *Server) Handler(conn net.Conn) {
 	//广播上线消息
 	this.Boardcast(user, " online")
 
-	//接收用户消息
+	//接收用户消息 并处理特殊逻辑
 	go func() {
 		buf := make([]byte, 4096)
 		for {
@@ -93,13 +93,31 @@ func (this *Server) Handler(conn net.Conn) {
 				user.GetInformainton("")
 				this.mapLock.Lock()
 				for name := range this.OnlineMap {
-					user.GetInformainton(name + " is online")
+					user.GetInformainton("``" + name + "``" + " is online")
 				}
 				this.mapLock.Unlock()
-			} else if msg[0:3] == "To|" { //私聊
+			} else if len(msg) >= 7 && msg[0:7] == "rename|" {
+				StringInformation := strings.Split(msg, "|")
+				if len(StringInformation[1]) == 0 {
+					user.GetInformainton("Can not use an empty name")
+					continue
+				}
+				//修改名字
+				this.mapLock.Lock()
+				delete(this.OnlineMap, user.Name)
+				this.OnlineMap[StringInformation[1]] = user
+				this.mapLock.Unlock()
+				user.GetInformainton("Your name has changed to " + StringInformation[1])
+			} else if len(msg) >= 3 && msg[0:3] == "to|" { //私聊
 				toStringInformation := strings.Split(msg, "|")
 				toMessageName := toStringInformation[1]
-				this.OnlineMap[toMessageName].GetInformainton(user.Name + ":" + toStringInformation[2])
+
+				//判断用户是否存在
+				if _, ok := this.OnlineMap[toMessageName]; !ok {
+					user.GetInformainton("There is No user named:" + toMessageName)
+					continue
+				}
+				this.OnlineMap[toMessageName].GetInformainton("A memssage from ``" + user.Name + "``:" + toStringInformation[2])
 
 			} else {
 				this.Boardcast(user, msg)

@@ -19,15 +19,21 @@
    ``` `切片slice`和`map`是引用类型 是引用传递```
 
 
-```
-telnet 127.0.0.1 8888
-
-```
 
 方法	            方向	            作用
 conn.Write(b)	    服务器 → 客户端	  把 b 发出去
 conn.Read(b)	    客户端 → 服务器	  把对方发来的读进 b
 
+
+
+
+
+	            net.Listen	                        net.Dial
+角色	         服务端（被动）	                       客户端（主动）
+作用	      监听本地端口，等待连接	                 主动发起连接
+返回值	          net.Listener	                     net.Conn
+阻塞行为	  阻塞等待 Accept，不阻塞在 Listen 本身	    阻塞直到连接建立或失败
+典型场景	       服务器、守护进程	                      客户端、调用方
 
 场景	                                   触发 io.EOF
 客户端调用conn.Close()	                 ✅ 会
